@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" media="screen"
+        href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
+    <title>Vote</title>
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            background-color: #cfd8dc;
+            font-size: 1em;
+            overflow: hidden;
+        }
+
+        .box {
+            background-color: #eceff1;
+            padding: 4.5em;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 600px;
+            text-align: center;
+        }
+
+        .box.hidden button {
+            visibility: hidden;
+        }
+
+        .box button:first-child {
+            margin-right: 1.5em;
+        }
+
+        button {
+            font-size: 3em;
+            padding: .4em 1em;
+            border: 3px solid #37474f;
+            color: #37474f;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        button:hover {
+            background-color: #37474f;
+            color: #eceff1;
+        }
+
+        button span {
+            font-family: monospace;
+            font-weight: 600;
+            margin-left: 10px;
+            pointer-events: none;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #37474f;
+        }
+
+        :focus {
+            outline: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box hidden">
+        <button class="far fa-thumbs-up" id="up"><span>0</span></button>
+        <button class="far fa-thumbs-down" id="down"><span>0</span></button>
+    </div>
+    <% if (locals.settings.env == 'development') { %>
+    <footer><u>development</u> version: <%- locals.version %> - IP address: <%- locals.address %></footer>
+    <% } else { %>
+    <footer>version: <%- locals.version %> - IP address: <%- locals.address %></footer>
+    <% } %>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+    <script>
+
+        const updateUI = async () => {
+            const result = await axios.get('/vote')
+            console.log('GET /vote:', result)
+            document.querySelector('#up span').textContent = result.data.up
+            document.querySelector('#down span').textContent = result.data.down
+            document.querySelector('.box').classList.remove('hidden')
+        }
+
+        const submit = async (e) => {
+            console.log('POST /vote:', { vote: e.target.id }, e.target)
+            await axios.post('/vote', { vote: e.target.id })
+            updateUI()
+        }
+
+        document.querySelector('#up').onclick = submit
+        document.querySelector('#down').onclick = submit
+
+        updateUI()
+    </script>
+
+    <% if (locals.settings.env == 'development') { %>
+     
+    <!-- <%- JSON.stringify(locals) %> -->
+
+    <script>
+        document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] +
+            ':35729/livereload.js?snipver=1"></' + 'script>')
+    </script>
+    <% } %>
+</body>
+
+</html>

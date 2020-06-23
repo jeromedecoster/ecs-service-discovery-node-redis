@@ -1,0 +1,23 @@
+{
+  "name": "vote",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "ejs": "^3.1.3",
+    "express": "^4.17.1",
+    "ioredis": "^4.17.1"
+  },
+  "devDependencies": {
+    "connect-livereload": "^0.6.1",
+    "livereload": "^0.9.1",
+    "nodemon": "^2.0.4"
+  }
+}

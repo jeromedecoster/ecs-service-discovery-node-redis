@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  vote:
+    build:
+      context: ./vote
+      dockerfile: dev/Dockerfile
+    volumes:
+      - "./vote:/app"
+    ports:
+      - "3000:3000"
+      - "35729:35729"
+    networks:
+      - backend
+    depends_on:
+      - redis
+    
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - backend
+
+networks:
+  backend: {}

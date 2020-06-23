@@ -1,0 +1,10 @@
+.ignore
+.terraform
+node_modules
+package-lock.json
+ecs-params.yml
+terraform.plan
+terraform.tfvars
+tfplan
+*.tfstate
+*.tfstate.backup
