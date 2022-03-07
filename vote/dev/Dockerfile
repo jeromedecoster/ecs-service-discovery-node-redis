@@ -1,9 +1,9 @@
-FROM node:14.3-slim AS build
+FROM node:17.6-slim AS build
 WORKDIR /app
 ADD package.json .
 RUN npm install
 
-FROM node:14.3-slim
+FROM node:17.6-slim
 WORKDIR /app
 COPY --from=build /app .
 ADD . .
